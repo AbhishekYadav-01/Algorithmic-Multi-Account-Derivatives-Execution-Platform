@@ -191,11 +191,14 @@ Based on the production screenshots, the platform features a "mission-control" s
 This high-density view is split into three functional panes to manage the entire lifecycle of a derivatives trade:
 
 * **Left Pane (Live Orders):** Displays active orders with real-time status. Key columns include *Account*, *Strategy Type*, *Legs & Fill Prices*, and the critical *Status (per account)* indicator, which shows the progress of the trade across the entire portfolio.
-<img width="1349" height="602" alt="image" src="https://github.com/user-attachments/assets/ea546785-a3fb-4dfb-bd28-3f5a235f2cdc" />
+
+<img width="1349" height="602" alt="image" src="https://github.com/user-attachments/assets/e0298836-d9fd-45b2-9674-c7e64a78e53f" />
+
 * **Middle Pane (Saved Placed Order Sets):** A chronological list of strategies currently in the market. Each entry features an **"EXIT"** button for immediate portfolio-wide liquidation.
 * **Right Pane (Order Entry & Templates):** Houses the **Saved Order Panel** for one-click entry into frequent trades and the **"OPTION"** button which launches the modal for the Spreads and Iron Condor builders.
 
-<img width="1342" height="581" alt="image" src="https://github.com/user-attachments/assets/3359dbb1-f32d-4fa8-bdf7-2d9e74daf96c" />
+<img width="1342" height="581" alt="image" src="https://github.com/user-attachments/assets/657e081f-7101-479b-948a-9af54dda4b3f" />
+
 
 ### B. Complex Order History & Status Tracking
 
@@ -213,7 +216,8 @@ The **Account Management** page is the foundation of the platform's multi-tenant
 * **Operational Status:** Features a "Status" toggle to instantly activate or deactivate an account. Inactive accounts are automatically bypassed by the "Fan-Out" engine, allowing for precise capital management.
 * **Real-Time Sync:** The **"REFRESH"** button triggers an immediate balance and buying power update across all accounts via the background `AccountProcess` worker.
 
-<img width="1353" height="507" alt="image" src="https://github.com/user-attachments/assets/d7947ab9-906d-4193-93c6-166336e58f1a" />
+<img width="1353" height="507" alt="image" src="https://github.com/user-attachments/assets/5ee4ca66-b51a-4657-b25a-e6afbd11e18d" />
+
 
 ---
 
