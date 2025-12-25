@@ -39,6 +39,96 @@ The system is built on a decoupled, service-oriented architecture designed for h
 * **Puppeteer/Playwright:** Engineered a sophisticated headless browser automation suite to handle the complex Schwab OAuth2 handshake, including automated login and consent flows to maintain 24/7 connectivity.
 * **OAuth2 / JWT:** Dual-layered security. JWT manages Agent-to-Platform sessions, while OAuth2 (with automated refresh logic) manages Platform-to-Brokerage sessions.
 
+graph TB
+    subgraph Client_Layer ["Frontend: React 18 & Vite"]
+        UI[User Interface: Tailwind CSS]
+        
+        subgraph State_Management ["Global State (React Context API)"]
+            AC[AccountContext: Balances/AUM]
+            SC[StockContext: Equity Trades]
+            CTC[CopyTradingContext: Option Strategies]
+        end
+
+        subgraph Key_Views ["Core Dashboards"]
+            VTD[Vertical Option Dashboard]
+            COH[Complex Order History]
+            AM[Account Management]
+        end
+    end
+
+    subgraph Infrastructure ["DevOps & Infrastructure"]
+        NGX[Nginx Reverse Proxy]
+        SSL[SSL/TLS Termination: Certbot]
+        PM2[PM2 Process Manager]
+    end
+
+    subgraph Backend_Layer ["Backend: Node.js & Express.js"]
+        API_SVR[Express API Server]
+        
+        subgraph Logic_Engines ["Core Logic Engines"]
+            B_ENG[Fan-Out Broadcast Engine]
+            R_ENG[Reversal/Exit Algorithm]
+            P_ENG[OCC Symbol Parser]
+        end
+
+        subgraph Background_Workers ["Tri-Cron Heartbeat Services"]
+            C_ACC[AccountProcess: Balance Sync]
+            C_OPT[OptionProcess: Strategy Sync]
+            C_STK[StockProcess: Equity Sync]
+        end
+        
+        subgraph Auth_Automation ["Authentication Orchestrator"]
+            PUP[Puppeteer: Headless Auth Flow]
+            MEM[Memcached: Token Cache]
+        end
+    end
+
+    subgraph Data_Layer ["Persistence Layer"]
+        DB[(SQLite3 Database)]
+        TBL1[complexOrderHistory]
+        TBL2[placedOrderSets]
+        TBL3[accounts]
+    end
+
+    subgraph External_Layer ["External Integration"]
+        CS_API[Charles Schwab API v1]
+        CS_OAuth[Schwab OAuth2 Gateway]
+    end
+
+    %% Connections
+    UI --> State_Management
+    State_Management --> Key_Views
+    Key_Views --> NGX
+    NGX --> SSL
+    NGX --> API_SVR
+    
+    PM2 --> API_SVR
+    PM2 --> Background_Workers
+    
+    API_SVR --> Logic_Engines
+    Logic_Engines --> B_ENG
+    B_ENG --> CS_API
+    
+    Background_Workers --> CS_API
+    Background_Workers --> DB
+    
+    API_SVR --> PUP
+    PUP --> CS_OAuth
+    PUP --> MEM
+    MEM --> API_SVR
+    
+    DB --- TBL1
+    DB --- TBL2
+    DB --- TBL3
+    
+    Logic_Engines --- P_ENG
+    R_ENG --- TBL2
+
+    style Client_Layer fill:#f9f,stroke:#333,stroke-width:2px
+    style Backend_Layer fill:#bbf,stroke:#333,stroke-width:2px
+    style External_Layer fill:#dfd,stroke:#333,stroke-width:2px
+    style Infrastructure fill:#ffd,stroke:#333,stroke-width:2px
+
 ---
 
 ## Infrastructure & DevOps
