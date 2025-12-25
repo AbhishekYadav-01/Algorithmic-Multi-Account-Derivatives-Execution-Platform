@@ -37,6 +37,7 @@ The system is built on a decoupled, service-oriented architecture designed for h
 * **Puppeteer/Playwright:** Engineered a sophisticated headless browser automation suite to handle the complex Schwab OAuth2 handshake, including automated login and consent flows to maintain 24/7 connectivity.
 * **OAuth2 / JWT:** Dual-layered security. JWT manages Agent-to-Platform sessions, while OAuth2 (with automated refresh logic) manages Platform-to-Brokerage sessions.
 
+```mermaid
 graph TB
     subgraph Client_Layer ["Frontend: React 18 & Vite"]
         UI[User Interface: Tailwind CSS]
