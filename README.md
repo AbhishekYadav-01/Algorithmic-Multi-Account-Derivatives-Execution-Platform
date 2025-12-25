@@ -12,6 +12,8 @@ The **Algorithmic Multi-Account Derivatives Execution Platform** is a high-perfo
 
 In a traditional trading environment, managing 45+ decentralized brokerage accounts requires a massive overhead of manual entry, leading to "execution drift" where fill prices vary wildly between accounts. This platform solves that problem by providing a centralized **"Command and Control"** interface. It allows a single operator to broadcast complex equity and multi-leg derivative strategies (Iron Condors, Vertical Spreads) across **45+ concurrent Charles Schwab accounts** with sub-200ms execution latency, ensuring near-perfect synchronization across the entire $1M+ portfolio.
 
+<img width="1365" height="570" alt="image" src="https://github.com/user-attachments/assets/db68440c-9a43-406d-bb2e-66850db872fa" />
+
 ---
 
 ## Technical Architecture & Stack
@@ -100,8 +102,11 @@ Based on the production screenshots, the platform features a "mission-control" s
 This high-density view is split into three functional panes to manage the entire lifecycle of a derivatives trade:
 
 * **Left Pane (Live Orders):** Displays active orders with real-time status. Key columns include *Account*, *Strategy Type*, *Legs & Fill Prices*, and the critical *Status (per account)* indicator, which shows the progress of the trade across the entire portfolio.
+**[Screenshot 2: Vertical Option Trading - Orders Pane]**
 * **Middle Pane (Saved Placed Order Sets):** A chronological list of strategies currently in the market. Each entry features an **"EXIT"** button for immediate portfolio-wide liquidation.
+**[Screenshot 3: Vertical Option Trading - Saved Placed Sets Pane]**
 * **Right Pane (Order Entry & Templates):** Houses the **Saved Order Panel** for one-click entry into frequent trades and the **"OPTION"** button which launches the modal for the Spreads and Iron Condor builders.
+**[Screenshot 4: Vertical Option Trading - Order Entry Pane]**
 
 ### B. Complex Order History & Status Tracking
 
@@ -109,6 +114,7 @@ The **Complex Order History** page provides a granular audit trail for every str
 
 * **Visual Status Grid:** Instead of a single status, each strategy entry shows a grid of icons representing every account. A quick glance tells the Agent if the strategy is `FILLED`, `WORKING`, or `REJECTED` across the entire 45-account fleet.
 * **Leg & Price Parsing:** The **Legs & Fill Prices** column uses a custom-built parser to convert raw OCC symbols (e.g., `SPXW 251205C07200000`) into human-readable text (e.g., `SPXW 12/05/2025 7200.00 C`), significantly reducing human error.
+![8bc765ff-dbd9-4e87-a58d-e7bf5ba4019f](https://github.com/user-attachments/assets/0aca93fa-4ac3-4682-bf54-00ea7b7c43a4)
 
 ### C. Brokerage Account Management
 
@@ -118,8 +124,9 @@ The **Account Management** page is the foundation of the platform's multi-tenant
 * **Operational Status:** Features a "Status" toggle to instantly activate or deactivate an account. Inactive accounts are automatically bypassed by the "Fan-Out" engine, allowing for precise capital management.
 * **Real-Time Sync:** The **"REFRESH"** button triggers an immediate balance and buying power update across all accounts via the background `AccountProcess` worker.
 
----
+<img width="1353" height="507" alt="image" src="https://github.com/user-attachments/assets/d7947ab9-906d-4193-93c6-166336e58f1a" />
 
+---
 
 ## Backend Engineering: The "Invisible Engine"
 
@@ -129,15 +136,18 @@ While the frontend provides the command interface, the backend is a high-availab
 
 To ensure the system remains responsive, the background synchronization logic is decoupled from the main API thread. The system runs three specialized, independent **Node-Cron** services:
 
-* **Stock Synchronization Service (`cronStockCopyTradingProcess.js`):** * **Frequency:** Executes every **5 seconds**.
+* **Stock Synchronization Service (`cronStockCopyTradingProcess.js`):**
+* **Frequency:** Executes every **5 seconds**.
 * **Logic:** It iterates through all "Working" stock orders across 45+ accounts. It queries the Schwab API for execution updates and synchronizes the local SQLite database. This ensures that if a stock order fills on the brokerage side, the UI reflects it within seconds.
 
 
-* **Option Strategy Synchronization Service (`cronOptionCopyTradingProcess.js`):** * **Frequency:** Executes every **5 seconds**.
+* **Option Strategy Synchronization Service (`cronOptionCopyTradingProcess.js`):**
+* **Frequency:** Executes every **5 seconds**.
 * **Logic:** This is the most complex worker. It monitors multi-leg option strategies (Verticals and Iron Condors). Because these strategies involve up to 4 legs, this worker verifies that *every leg* is filled before marking the strategy as `FILLED` in the **Complex Order History** view.
 
 
 * **Account & Capital Monitor (`cronAccountProcess.js`):** * **Frequency:** Executes every **15 seconds**.
+* **Frequency:** Executes every **15 seconds**.
 * **Logic:** It fetches the "Total Account Value," "Cash Balance," and "Buying Power" for every linked account. This data is what drives the **Account Management Dashboard**, allowing the Agent to see a real-time aggregate of the **$1,000,000+ AUM**.
 
 
@@ -157,6 +167,7 @@ Standard OAuth2 flows often require manual user redirection to a browser. For a 
 * **Browser Automation:** Using **Puppeteer**, the system launches a headless browser instance to navigate the Schwab login and consent screens automatically.
 * **Persistent Session Caching:** Once the `access_token` and `refresh_token` are retrieved, they are cached in **Memcached**.
 * **Silent Refresh:** A dedicated worker monitors the 30-minute expiration window of the access tokens and uses the refresh tokens to silently generate new credentials, ensuring the Agent never has to re-authenticate manually during market hours.
+
 
 ### 4. Relational Database Schema (SQLite3)
 
@@ -184,6 +195,7 @@ The screenshots show legs like `SPXW 12/05/2025 7200.00 C`.
 
 * **Backend Reality:** The Schwab API provides raw strings like `SPXW  251205C07200000`.
 * **Parsing Logic:** I implemented a regex-based parser that breaks down these 21-character strings into Root, Expiration, Strike, and Option Type. This ensures that the Agent can read and verify trades at a glance, preventing catastrophic errors in high-stakes trading.
+
 
 ---
 
