@@ -4,13 +4,13 @@
 
 **Notice:** This project was architected and developed entirely by me at **Softwired**. Due to company policy and proprietary intellectual property, complete code sharing is strictly prohibited. This documentation serves as a high-level technical overview of the system architecture and implementation.
 
----
+
 
 ## Executive Summary
 
 The **Algorithmic Multi-Account Derivatives Execution Platform** is a high-performance, full-stack trading solution built to manage a high-value portfolio of **$1,000,000+ Assets Under Management (AUM)**. The platform solves the critical challenge of trade synchronization across decentralized brokerage accounts. By integrating directly with the **Charles Schwab API**, it allows a single operator to broadcast complex equity and multi-leg option strategies across **45+ concurrent accounts** with sub-200ms execution latency.
 
----
+
 
 ## Technical Architecture
 
