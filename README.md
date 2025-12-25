@@ -127,7 +127,7 @@ graph TB
     style Backend_Layer fill:#bbf,stroke:#333,stroke-width:2px
     style External_Layer fill:#dfd,stroke:#333,stroke-width:2px
     style Infrastructure fill:#ffd,stroke:#333,stroke-width:2px
-
+```
 ---
 
 ## Infrastructure & DevOps
