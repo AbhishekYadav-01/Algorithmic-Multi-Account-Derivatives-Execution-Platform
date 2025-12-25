@@ -102,11 +102,11 @@ Based on the production screenshots, the platform features a "mission-control" s
 This high-density view is split into three functional panes to manage the entire lifecycle of a derivatives trade:
 
 * **Left Pane (Live Orders):** Displays active orders with real-time status. Key columns include *Account*, *Strategy Type*, *Legs & Fill Prices*, and the critical *Status (per account)* indicator, which shows the progress of the trade across the entire portfolio.
-**[Screenshot 2: Vertical Option Trading - Orders Pane]**
+<img width="1349" height="602" alt="image" src="https://github.com/user-attachments/assets/ea546785-a3fb-4dfb-bd28-3f5a235f2cdc" />
 * **Middle Pane (Saved Placed Order Sets):** A chronological list of strategies currently in the market. Each entry features an **"EXIT"** button for immediate portfolio-wide liquidation.
-**[Screenshot 3: Vertical Option Trading - Saved Placed Sets Pane]**
 * **Right Pane (Order Entry & Templates):** Houses the **Saved Order Panel** for one-click entry into frequent trades and the **"OPTION"** button which launches the modal for the Spreads and Iron Condor builders.
-**[Screenshot 4: Vertical Option Trading - Order Entry Pane]**
+
+<img width="1342" height="581" alt="image" src="https://github.com/user-attachments/assets/3359dbb1-f32d-4fa8-bdf7-2d9e74daf96c" />
 
 ### B. Complex Order History & Status Tracking
 
