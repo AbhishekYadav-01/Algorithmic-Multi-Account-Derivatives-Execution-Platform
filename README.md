@@ -2,7 +2,7 @@
 
 # Algorithmic Multi-Account Derivatives Execution Platform
 
-> **PROPRIETARY NOTICE:** This project was architected, engineered, and deployed entirely by me during my tenure at **Softwired**. Complete source code sharing is strictly prohibited by company policy. This documentation serves as a comprehensive technical breakdown of the system's architecture, logic, and operational scale for professional review.
+**PROPRIETARY NOTICE:** This project was architected, engineered, and deployed entirely by me during my tenure at **Softwired**. Complete source code sharing is strictly prohibited by company policy. This documentation serves as a comprehensive technical breakdown of the system's architecture, logic, and operational scale for professional review.
 
 ---
 
